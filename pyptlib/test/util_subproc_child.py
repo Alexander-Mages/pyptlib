@@ -1,5 +1,7 @@
 #!/usr/bin/python
 
+from __future__ import absolute_import
+from __future__ import print_function
 import signal
 import sys
 import time
@@ -11,7 +13,7 @@ def child_default(subcmd, *argv):
     time.sleep(100)
 
 def child_default_io(subcmd, *argv):
-    print "child printing output"
+    print("child printing output")
 
 def child_killall_kill(subcmd, *argv):
     signal.signal(signal.SIGINT, hangForever)

@@ -5,6 +5,7 @@
 Parts of pyptlib that are useful both to clients and servers.
 """
 
+from __future__ import absolute_import
 import os
 
 SUPPORTED_TRANSPORT_VERSIONS = ['1']
@@ -81,7 +82,7 @@ def get_env(key, validate=env_has_k):
     """
     try:
         return validate(key, os.getenv(key))
-    except Exception, e:
+    except Exception as e:
         raise EnvError("error parsing env-var: %s: %s" % (key, e), e)
 
 class EnvError(Exception):

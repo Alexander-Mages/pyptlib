@@ -5,6 +5,7 @@
 Public client-side pyptlib API.
 """
 
+from __future__ import absolute_import
 from pyptlib.core import TransportPlugin
 from pyptlib.client_config import ClientConfig
 

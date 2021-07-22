@@ -6,6 +6,8 @@ the Popen() here rather than subprocess.Popen() directly.
 Some parts do not yet work fully on windows (sending/trapping signals).
 """
 
+from __future__ import absolute_import
+from __future__ import print_function
 import atexit
 import inspect
 import os
@@ -13,6 +15,9 @@ import signal
 import subprocess
 import sys
 import time
+import six
+from six.moves import range
+from six.moves import zip
 
 mswindows = (sys.platform == "win32")
 if mswindows:
@@ -38,7 +43,7 @@ SINK = object()
 
 # get default args from subprocess.Popen to use in subproc.Popen
 a = inspect.getargspec(subprocess.Popen.__init__)
-_Popen_defaults = zip(a.args[-len(a.defaults):],a.defaults); del a
+_Popen_defaults = list(zip(a.args[-len(a.defaults):],a.defaults)); del a
 if mswindows:
     # required for os.kill() to work
     _Popen_creationflags = subprocess.CREATE_NEW_PROCESS_GROUP
@@ -69,7 +74,7 @@ if mswindows:
 
     tmp = dict(_Popen_defaults)
     tmp['creationflags'] |= _Popen_creationflags
-    _Popen_defaults = tmp.items()
+    _Popen_defaults = list(tmp.items())
     del tmp, _Popen_creationflags
 
 
@@ -87,7 +92,7 @@ class Popen(subprocess.Popen):
     """
 
     def __init__(self, *args, **kwargs):
-        kwargs = dict(_Popen_defaults + kwargs.items())
+        kwargs = dict(_Popen_defaults + list(kwargs.items()))
         if 'creationflagsmerge' in kwargs:
             kwargs['creationflags'] = (
                 kwargs.get('creationflags', 0) | kwargs['creationflagsmerge'])
@@ -166,7 +171,7 @@ class SignalHandlers(object):
 
         # code snippet adapted from atexit._run_exitfuncs
         exc_info = None
-        for i in xrange(self.received).__reversed__():
+        for i in range(self.received).__reversed__():
             for handler in self.handlers.get(i, []).__reversed__():
                 try:
                     handler(signum, sframe)
@@ -174,12 +179,12 @@ class SignalHandlers(object):
                     exc_info = sys.exc_info()
                 except:
                     import traceback
-                    print >> sys.stderr, "Error in SignalHandler.handle:"
+                    print("Error in SignalHandler.handle:", file=sys.stderr)
                     traceback.print_exc()
                     exc_info = sys.exc_info()
 
         if exc_info is not None:
-            raise exc_info[0], exc_info[1], exc_info[2]
+            six.reraise(exc_info[0], exc_info[1], exc_info[2])
 
     def register(self, handler, ignoreNum):
         self.handlers.setdefault(ignoreNum, []).append(handler)
@@ -228,7 +233,7 @@ def killall(cleanup=lambda:None, wait_s=16):
         if proc.poll() is None:
             proc.terminate()
     # wait and make sure they're dead
-    for i in xrange(wait_s):
+    for i in range(wait_s):
         _CHILD_PROCS = [proc for proc in _CHILD_PROCS
                         if proc.poll() is None]
         if not _CHILD_PROCS: break

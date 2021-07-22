@@ -3,6 +3,8 @@
 
 """This is a server-side example of the pyptlib API."""
 
+from __future__ import absolute_import
+from __future__ import print_function
 import sys
 
 from pyptlib.server import ServerTransportPlugin
@@ -12,8 +14,8 @@ if __name__ == '__main__':
     server = ServerTransportPlugin()
     try:
         server.init(["blackfish", "bluefish"])
-    except EnvError, err:
-        print "pyptlib could not bootstrap ('%s')." % str(err)
+    except EnvError as err:
+        print("pyptlib could not bootstrap ('%s')." % str(err))
         sys.exit(1)
 
     for transport, transport_bindaddr in server.getBindAddresses().items():
@@ -26,7 +28,7 @@ if __name__ == '__main__':
 
         try:
             bind_addrport = your_function_that_launches_transports(transport, transport_bindaddr)
-        except YourFailException, err:
+        except YourFailException as err:
             reportFailure(transport, "Failed to launch ('%s')." % str(err))
             continue
 

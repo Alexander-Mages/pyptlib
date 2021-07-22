@@ -5,6 +5,7 @@
 Low-level parts of pyptlib that are only useful to servers.
 """
 
+from __future__ import absolute_import
 import pyptlib.config as config
 import pyptlib.util as util
 

@@ -1,6 +1,8 @@
 pyptlib README
 ===============
 
+#This is a python3 compatible fork of pyptlib
+
 - What is pyptlib?
 
 pyptlib is a little Python library which understands the `pluggable

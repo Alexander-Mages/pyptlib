@@ -1,5 +1,7 @@
 #!/usr/bin/python
 
+from __future__ import absolute_import
+from __future__ import print_function
 import os
 import signal
 import sys
@@ -7,6 +9,7 @@ import time
 
 from pyptlib.util.subproc import auto_killall, killall, trap_sigint, Popen, SINK
 from subprocess import PIPE
+from six.moves import range
 
 
 def startChild(subcmd, report=False, stdout=SINK, **kwargs):
@@ -16,20 +19,20 @@ def startChild(subcmd, report=False, stdout=SINK, **kwargs):
         **kwargs
     )
     if report:
-        print "child %s" % proc.pid
+        print("child %s" % proc.pid)
         sys.stdout.flush()
     return proc
 
 def sleepIgnoreInts(ignoreNumInts=3):
-    for i in xrange(ignoreNumInts):
+    for i in range(ignoreNumInts):
         time.sleep(100)
 
 def handler1(signum=0, sframe=None):
-    print "run h1"
+    print("run h1")
     sys.stdout.flush()
 
 def handler2(signum=0, sframe=None):
-    print "run h2"
+    print("run h2")
     sys.stdout.flush()
 
 def main_Popen_IOpassthru(testname, *argv):

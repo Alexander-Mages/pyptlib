@@ -5,6 +5,7 @@
 Utility functions.
 """
 
+from __future__ import absolute_import
 import re
 import socket
 
@@ -86,7 +87,7 @@ def parse_addr_spec(spec, defhost = None, defport = None, resolve = False):
         flags = socket.AI_NUMERICHOST
     try:
         addrs = socket.getaddrinfo(host, port, af, socket.SOCK_STREAM, socket.IPPROTO_TCP, flags)
-    except socket.gaierror, e:
+    except socket.gaierror as e:
         raise ValueError("Bad host or port: \"%s\" \"%s\": %s" % (host, port, str(e)))
     if not addrs:
         raise ValueError("Bad host or port: \"%s\" \"%s\"" % (host, port))

@@ -5,8 +5,10 @@
 Public server-side pyptlib API.
 """
 
+from __future__ import absolute_import
 from pyptlib.core import TransportPlugin
 from pyptlib.server_config import ServerConfig
+import six
 
 
 class ServerTransportPlugin(TransportPlugin):
@@ -53,7 +55,7 @@ class ServerTransportPlugin(TransportPlugin):
         :raises: :class:`ValueError` if called before :func:`init`.
         """
         return dict((k, v)
-                    for k, v in self.config.serverBindAddr.iteritems()
+                    for k, v in six.iteritems(self.config.serverBindAddr)
                     if k in self.getTransports())
 
 
