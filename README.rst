@@ -1,7 +1,9 @@
-pyptlib README
+pyptlib-python3 README
 ===============
 
-#This is a python3 compatible fork of pyptlib
+This is a python3 compatible fork of pyptlib
+
+
 
 - What is pyptlib?
 
@@ -38,8 +40,4 @@ where its data will be pushed to.
 - How do I use pyptlib?
 
 Read the documentation, the examples and the source.
-
-- What are these buzzwords?
-
-:file:`glossary.rst`
 
